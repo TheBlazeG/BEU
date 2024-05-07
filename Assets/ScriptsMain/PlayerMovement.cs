@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     public PlayerState currentState;
     [SerializeField] public Vector2 direction;
     [SerializeField] BarraDeVida barra;
+   
     // PlayerDash pd;
     void Start()
     {
@@ -82,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
         //}
         direction.x = Input.GetAxisRaw("Horizontal");
         direction.y = Input.GetAxisRaw("Vertical");
-        
+        animator.SetFloat("LeftorRight",ardir.x);
     }
     private void FixedUpdate()
     {
@@ -134,10 +135,11 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator AttackSword()
     {
-        animator.SetBool("attacking", true);
+ 
+        animator.Play("Punch");
         currentState = PlayerState.attack;
-        yield return new WaitForSeconds(.8f);
-        animator.SetBool("attacking", false);
+        yield return new WaitForSeconds(.015f);
+     
         currentState = PlayerState.walk;
     }
 
