@@ -28,6 +28,10 @@ public class PlayerMovement : MonoBehaviour
     public PlayerState currentState;
     [SerializeField] public Vector2 direction;
     [SerializeField] BarraDeVida barra;
+    public static int numberOfAttacks;
+    float lastAttackedTime=0;
+    float maxComboDelay = 1;
+    private float nextFireTime = 0;
    
     // PlayerDash pd;
     void Start()
@@ -39,6 +43,26 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
+
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime>.7 && animator.GetCurrentAnimatorStateInfo(0).IsName("punch"))
+        {
+            animator.SetBool("attack1", false);
+        }
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > .7 && animator.GetCurrentAnimatorStateInfo(0).IsName("hit2"))
+        {
+            animator.SetBool("attack2", false);
+        }
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > .7 && animator.GetCurrentAnimatorStateInfo(0).IsName("hit3"))
+        {
+            animator.SetBool("attack3", false);
+            numberOfAttacks = 0;
+        }
+
+        if (Time.time - lastAttackedTime > maxComboDelay)
+            numberOfAttacks = 0;
+
+        if (Time.time>nextFireTime)
+
         // if (isDashing)
         // {
         //   return;
@@ -59,13 +83,16 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("attack") && currentState != PlayerState.attack)
         {
+            lastAttackedTime = Time.time;
+            numberOfAttacks++;
             Debug.Log("attack button prssed");
             StartCoroutine(AttackCo());
+        
         }
-        else if (Input.GetButtonDown("attack2") && currentState != PlayerState.attack && currentState != PlayerState.stagger)//attaaaaaaaack
+        if(Time.time > nextFireTime)
+        if (Input.GetButtonDown("attack2") && currentState != PlayerState.attack && currentState != PlayerState.stagger)//attaaaaaaaack
         {
-            Debug.Log("sword button prssed");
-            StartCoroutine(AttackSword());
+            attack();
         }
         else if (currentState == PlayerState.walk || currentState == PlayerState.idle)
         {
@@ -84,6 +111,9 @@ public class PlayerMovement : MonoBehaviour
         direction.x = Input.GetAxisRaw("Horizontal");
         direction.y = Input.GetAxisRaw("Vertical");
         animator.SetFloat("LeftorRight",ardir.x);
+       
+
+       
     }
     private void FixedUpdate()
     {
@@ -135,8 +165,20 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator AttackSword()
     {
- 
-        animator.Play("Punch");
+        if (numberOfAttacks == 1)
+        { animator.Play("Punch");
+            animator.SetBool("attack1", true);
+        }
+        else if (numberOfAttacks == 2) 
+        {
+            animator.SetBool("Attack2", true);
+        }
+        else if (numberOfAttacks == 3) 
+        {
+            animator.SetBool("attack3", true);
+        
+        }
+
         currentState = PlayerState.attack;
         yield return new WaitForSeconds(.015f);
      
@@ -208,5 +250,32 @@ public class PlayerMovement : MonoBehaviour
         Vector2 direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
         
         myRigidbody.velocity = direction * Time.fixedDeltaTime * speed;
+    }
+    void attack()
+    {
+        lastAttackedTime = Time.time;
+        numberOfAttacks++;
+        Debug.Log("sword button prssed");
+        //StartCoroutine(AttackSword());
+        if (numberOfAttacks == 1)
+        {
+
+            animator.SetBool("attack1", true);
+        }
+        numberOfAttacks = Mathf.Clamp(numberOfAttacks, 0, 3);
+        if (numberOfAttacks >= 2 && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && animator.GetCurrentAnimatorStateInfo(0).IsName("punch"))
+
+        {
+            animator.SetBool("attack1", false);
+            animator.SetBool("Attack2", true);
+        }
+        if (numberOfAttacks >= 3 && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && animator.GetCurrentAnimatorStateInfo(0).IsName("hit2"))
+        {
+            animator.SetBool("Attack2", false);
+            animator.SetBool("attack3", true);
+
+        }
+
+
     }
 }
