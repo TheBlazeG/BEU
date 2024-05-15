@@ -21,6 +21,13 @@ public class ComboCount : MonoBehaviour
     {
         if (collision.CompareTag("Enemy")) {
             Debug.Log("monke");
+            //combo++
+            //combomultiplier+=.25
         }
     }
+
+
+    //meter=10
+    
+    //meterup+= 1*combo
 }
