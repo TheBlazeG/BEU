@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
 
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime>.7 && animator.GetCurrentAnimatorStateInfo(0).IsName("punch"))
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime>.7 && animator.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
         {
             animator.SetBool("attack1", false);
         }
