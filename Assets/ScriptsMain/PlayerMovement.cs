@@ -30,8 +30,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] BarraDeVida barra;
     public static int numberOfAttacks;
     float lastAttackedTime=0;
+    float lastDodgeTime=0;
     float maxComboDelay = 1;
     private float nextFireTime = 0;
+    bool canDash=true;
    
     // PlayerDash pd;
     void Start()
@@ -60,6 +62,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (Time.time - lastAttackedTime > maxComboDelay)
             numberOfAttacks = 0;
+        if (Time.time - lastDodgeTime > .7)
+            canDash = true;
+
+        if (Time.time - lastDodgeTime > .3)
+            speed=300;
 
         if (Time.time>nextFireTime)
 
@@ -99,15 +106,16 @@ public class PlayerMovement : MonoBehaviour
             //UpdateAnimationAndMove();
             currentState = PlayerState.walk;
         }
-        //if (Input.GetButtonDown("Dash"))
-        //{
+        if (Input.GetButtonDown("Dash"))
+        {
 
-        //    if (canDash)
-        //    {
+            if (canDash)
+            {
 
-        //        StartCoroutine(Dash());
-        //    }
-        //}
+                Dash(canDash);
+            }
+        }
+
         direction.x = Input.GetAxisRaw("Horizontal");
         direction.y = Input.GetAxisRaw("Vertical");
         animator.SetFloat("LeftorRight",ardir.x);
@@ -186,26 +194,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    //[SerializeField] float dashSpeed = 20f;
-    //[SerializeField] float dashDuration = .2f;
-    //[SerializeField] float dashCooldown = 1f;
-    //bool isDashing;
-    //bool canDash = true;
-    /***
-    private IEnumerator Dash()
-    {
-        
-        
-        canDash = false;
-        isDashing = true;
-        myRigidbody.velocity=direction.normalized*dashSpeed;
-        yield return new WaitForSeconds(dashDuration);
-        isDashing = false;
-        
-        yield return new WaitForSeconds(dashCooldown);
-        canDash = true;
-    }
-    */
+ 
     void MoveCharacter()
     {
 
@@ -278,4 +267,34 @@ public class PlayerMovement : MonoBehaviour
 
 
     }
+
+    void Dash(bool Dash)
+    {
+        lastDodgeTime = Time.time;  
+        speed=600;
+    }
+    /*
+     agregamos nueva barra
+
+    if(cantidad de barra>checkpoint && superActive=false)
+    Mathf.Clamp(cantidad de barra, 15, 30);
+
+    if (Input.GetButtonDown("super") && cantidad de barra!=maxcantidad de barra)
+     {
+    superActive=true;
+     cantidad de barra-=15;
+}
+
+    if (Input.GetButtonDown("super") && cantidad de barra>=maxcantidad de barra)
+     superActive=true;
+     cantidad de barra=0;
+    superMode=Active;
+     
+     
+     
+     
+     
+     
+     
+     */
 }
