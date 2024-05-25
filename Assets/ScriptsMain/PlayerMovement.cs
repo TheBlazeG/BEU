@@ -49,13 +49,17 @@ public class PlayerMovement : MonoBehaviour
         if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime>.7 && animator.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
         {
             animator.SetBool("attack1", false);
+            numberOfAttacks = 0;
         }
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > .7 && animator.GetCurrentAnimatorStateInfo(0).IsName("hit2"))
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > .7 && animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerPunch2"))
         {
-            animator.SetBool("attack2", false);
+            Debug.Log("punch2");
+            animator.SetBool("Attack2", false);
+            numberOfAttacks = 0;
         }
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > .7 && animator.GetCurrentAnimatorStateInfo(0).IsName("hit3"))
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > .7 && animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerPunch3"))
         {
+            Debug.Log("punch3");
             animator.SetBool("attack3", false);
             numberOfAttacks = 0;
         }
@@ -244,7 +248,6 @@ public class PlayerMovement : MonoBehaviour
     {
         lastAttackedTime = Time.time;
         numberOfAttacks++;
-        Debug.Log("sword button prssed");
         //StartCoroutine(AttackSword());
         if (numberOfAttacks == 1)
         {
@@ -252,13 +255,13 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("attack1", true);
         }
         numberOfAttacks = Mathf.Clamp(numberOfAttacks, 0, 3);
-        if (numberOfAttacks >= 2 && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && animator.GetCurrentAnimatorStateInfo(0).IsName("punch"))
+        if (numberOfAttacks >= 2 && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.04f && animator.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
 
         {
             animator.SetBool("attack1", false);
             animator.SetBool("Attack2", true);
         }
-        if (numberOfAttacks >= 3 && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && animator.GetCurrentAnimatorStateInfo(0).IsName("hit2"))
+        if (numberOfAttacks >= 3 && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.04f && animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerPunch2"))
         {
             animator.SetBool("Attack2", false);
             animator.SetBool("attack3", true);
