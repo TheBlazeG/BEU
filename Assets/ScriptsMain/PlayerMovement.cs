@@ -88,14 +88,14 @@ public class PlayerMovement : MonoBehaviour
         change.y = Input.GetAxisRaw("Vertical") * Time.deltaTime ;
         
 
-        if (Input.GetButtonDown("attack") && currentState != PlayerState.attack)
+        /*if (Input.GetButtonDown("attack") && currentState != PlayerState.attack)
         {
             lastAttackedTime = Time.time;
             numberOfAttacks++;
             Debug.Log("attack button prssed");
             StartCoroutine(AttackCo());
         
-        }
+        }*/
         if(Time.time > nextFireTime)
         if (Input.GetButtonDown("attack2") && currentState != PlayerState.attack && currentState != PlayerState.stagger)//attaaaaaaaack
         {
@@ -130,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        health = playerHealth.initialValue;
+        //health = playerHealth.initialValue;
     }
 
     private void TakeDamage(float damage)
