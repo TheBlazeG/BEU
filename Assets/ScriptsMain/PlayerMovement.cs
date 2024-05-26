@@ -55,13 +55,22 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
-        if (myRigidbody.velocity.x > 0)
+        if (myRigidbody.velocity.x > 0 && currentState != PlayerState.stagger)
         {
             transform.localScale = new Vector3(1, 1, 1);
         }
-        if(myRigidbody.velocity.x < 0)
+        if(myRigidbody.velocity.x < 0 && currentState != PlayerState.stagger)
         {
             transform.localScale = new Vector3(-1, 1, 1);
+        }
+
+        if (numberOfAttacks > 0)
+        {
+            currentState = PlayerState.stagger;
+        }
+        else
+        {
+            currentState = PlayerState.walk;
         }
 
 
@@ -265,7 +274,16 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
         
-        myRigidbody.velocity = direction * Time.fixedDeltaTime * speed;
+
+        if (currentState != PlayerState.stagger) 
+        {
+            myRigidbody.velocity = direction * Time.fixedDeltaTime * speed;
+        }
+        else
+        {
+            myRigidbody.velocity = new Vector2(0, 0);
+        }
+
     }
     void attack()
     {

@@ -92,22 +92,22 @@ public class BossMovement : MonoBehaviour
     private IEnumerator LaunchLasers()
     {
         launchingLasers = true;
-        while(launchingLasers && !launchingALaser)
+        
+
+        if (transform.position.x < launchingLasersPlaceX)
         {
-            if (transform.position.x < launchingLasersPlaceX)
-            {
-                transform.Translate((walkingSpeed * 4) * Time.deltaTime, 0, 0);
-            }
-            else
-            {
-                transform.Translate(0, (walkingSpeed * 20) * launchingLasersYDirection * Time.deltaTime, 0);
-            }
+            transform.Translate((walkingSpeed * 4) * Time.deltaTime, 0, 0);
+        }
+        else
+        {
+            transform.Translate(0, (walkingSpeed * 20) * launchingLasersYDirection * Time.deltaTime, 0);
         }
 
         if (launchingALaser)
         {
             StartCoroutine(LaunchALaser());
         }
+
         yield return new WaitForSeconds(3);
         launchingALaser = true;
         yield return new WaitForSeconds(15);
