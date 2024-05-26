@@ -1,25 +1,31 @@
 fileFormatVersion: 2
-guid: 8e2df64f0252aa54d9db81739c46b0da
+guid: 01f17a6a6ff7f8b458ec24b02b6a726d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5684318836787401456
-    second: PlayerPunch1_0
+      213: 6512849302013915524
+    second: EnemyTankWalk_0
   - first:
-      213: -5393814772064220820
-    second: PlayerPunch1_1
+      213: 2655277826676245530
+    second: EnemyTankWalk_1
   - first:
-      213: 8821590534802309010
-    second: PlayerPunch1_2
+      213: 1735489272405731438
+    second: EnemyTankWalk_2
   - first:
-      213: -7173335926188516867
-    second: PlayerPunch1_3
+      213: 5743115722873959540
+    second: EnemyTankWalk_3
   - first:
-      213: 6408839183572660544
-    second: PlayerPunch1_4
+      213: 4250078704601341707
+    second: EnemyTankWalk_4
   - first:
-      213: 2814668294816452868
-    second: PlayerPunch1_5
+      213: 3447750981787108966
+    second: EnemyTankWalk_5
+  - first:
+      213: 7518898065304681782
+    second: EnemyTankWalk_6
+  - first:
+      213: 1999840529783329006
+    second: EnemyTankWalk_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -115,7 +121,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayerPunch1_0
+      name: EnemyTankWalk_0
       rect:
         serializedVersion: 2
         x: 0
@@ -129,14 +135,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 01da93f722e3d11b0800000000000000
-      internalID: -5684318836787401456
+      spriteID: 481b0320fe9426a50800000000000000
+      internalID: 6512849302013915524
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerPunch1_1
+      name: EnemyTankWalk_1
       rect:
         serializedVersion: 2
         x: 128
@@ -150,14 +156,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c698bdeda025525b0800000000000000
-      internalID: -5393814772064220820
+      spriteID: a1442077d1179d420800000000000000
+      internalID: 2655277826676245530
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerPunch1_2
+      name: EnemyTankWalk_2
       rect:
         serializedVersion: 2
         x: 256
@@ -171,14 +177,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 29ff6d44ad59c6a70800000000000000
-      internalID: 8821590534802309010
+      spriteID: e68ae395c42b51810800000000000000
+      internalID: 1735489272405731438
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerPunch1_3
+      name: EnemyTankWalk_3
       rect:
         serializedVersion: 2
         x: 384
@@ -192,14 +198,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: df95cf82bf0337c90800000000000000
-      internalID: -7173335926188516867
+      spriteID: 474fcd55255a3bf40800000000000000
+      internalID: 5743115722873959540
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerPunch1_4
+      name: EnemyTankWalk_4
       rect:
         serializedVersion: 2
         x: 512
@@ -213,14 +219,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 041f37f2845c0f850800000000000000
-      internalID: 6408839183572660544
+      spriteID: b0f173f50105bfa30800000000000000
+      internalID: 4250078704601341707
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerPunch1_5
+      name: EnemyTankWalk_5
       rect:
         serializedVersion: 2
         x: 640
@@ -234,8 +240,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 401d611c6e5bf0720800000000000000
-      internalID: 2814668294816452868
+      spriteID: 666cc6f304fd8df20800000000000000
+      internalID: 3447750981787108966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyTankWalk_6
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63d7bdc14fd785860800000000000000
+      internalID: 7518898065304681782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyTankWalk_7
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee01a21cd5cd0cb10800000000000000
+      internalID: 1999840529783329006
       vertices: []
       indices: 
       edges: []
@@ -243,7 +291,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 9a5f689fdb668394d83af7586c08d5b5
+    spriteID: 7090899d46f562641ac4446959f5645c
     internalID: 0
     vertices: []
     indices: 
@@ -251,12 +299,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      PlayerPunch1_0: -5684318836787401456
-      PlayerPunch1_1: -5393814772064220820
-      PlayerPunch1_2: 8821590534802309010
-      PlayerPunch1_3: -7173335926188516867
-      PlayerPunch1_4: 6408839183572660544
-      PlayerPunch1_5: 2814668294816452868
+      EnemyTankWalk_0: 6512849302013915524
+      EnemyTankWalk_1: 2655277826676245530
+      EnemyTankWalk_2: 1735489272405731438
+      EnemyTankWalk_3: 5743115722873959540
+      EnemyTankWalk_4: 4250078704601341707
+      EnemyTankWalk_5: 3447750981787108966
+      EnemyTankWalk_6: 7518898065304681782
+      EnemyTankWalk_7: 1999840529783329006
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

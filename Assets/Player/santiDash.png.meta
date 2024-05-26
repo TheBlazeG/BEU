@@ -1,25 +1,13 @@
 fileFormatVersion: 2
-guid: 8e2df64f0252aa54d9db81739c46b0da
+guid: 3d5884b7ea6fb8f42b399c482ac91604
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5684318836787401456
-    second: PlayerPunch1_0
+      213: -5203876171834344380
+    second: santiDash_0
   - first:
-      213: -5393814772064220820
-    second: PlayerPunch1_1
-  - first:
-      213: 8821590534802309010
-    second: PlayerPunch1_2
-  - first:
-      213: -7173335926188516867
-    second: PlayerPunch1_3
-  - first:
-      213: 6408839183572660544
-    second: PlayerPunch1_4
-  - first:
-      213: 2814668294816452868
-    second: PlayerPunch1_5
+      213: -6965457305867296849
+    second: santiDash_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -115,7 +103,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayerPunch1_0
+      name: santiDash_0
       rect:
         serializedVersion: 2
         x: 0
@@ -129,14 +117,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 01da93f722e3d11b0800000000000000
-      internalID: -5684318836787401456
+      spriteID: 44cb1ba613e18c7b0800000000000000
+      internalID: -5203876171834344380
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerPunch1_1
+      name: santiDash_1
       rect:
         serializedVersion: 2
         x: 128
@@ -150,92 +138,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c698bdeda025525b0800000000000000
-      internalID: -5393814772064220820
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerPunch1_2
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 29ff6d44ad59c6a70800000000000000
-      internalID: 8821590534802309010
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerPunch1_3
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: df95cf82bf0337c90800000000000000
-      internalID: -7173335926188516867
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerPunch1_4
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 041f37f2845c0f850800000000000000
-      internalID: 6408839183572660544
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerPunch1_5
-      rect:
-        serializedVersion: 2
-        x: 640
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 401d611c6e5bf0720800000000000000
-      internalID: 2814668294816452868
+      spriteID: faf51a12c79b55f90800000000000000
+      internalID: -6965457305867296849
       vertices: []
       indices: 
       edges: []
@@ -243,7 +147,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 9a5f689fdb668394d83af7586c08d5b5
+    spriteID: d8f4e3d4905586b49aceefb976d24f27
     internalID: 0
     vertices: []
     indices: 
@@ -251,12 +155,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      PlayerPunch1_0: -5684318836787401456
-      PlayerPunch1_1: -5393814772064220820
-      PlayerPunch1_2: 8821590534802309010
-      PlayerPunch1_3: -7173335926188516867
-      PlayerPunch1_4: 6408839183572660544
-      PlayerPunch1_5: 2814668294816452868
+      santiDash_0: -5203876171834344380
+      santiDash_1: -6965457305867296849
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

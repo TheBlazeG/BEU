@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PlayerPunch1
+  m_Name: BossHit
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -31,7 +31,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.083333336
+        time: 1.5
         value: 1
         inSlope: Infinity
         outSlope: Infinity
@@ -40,7 +40,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.41666666
+        time: 1.9833333
         value: 0
         inSlope: Infinity
         outSlope: Infinity
@@ -52,25 +52,12 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_IsActive
-    path: hitboxpunch
+    path: HitCollider
     classID: 1
     script: {fileID: 0}
     flags: 0
-  m_PPtrCurves:
-  - serializedVersion: 2
-    curve:
-    - time: 0
-      value: {fileID: -5684318836787401456, guid: 8e2df64f0252aa54d9db81739c46b0da, type: 3}
-    - time: 0.083333336
-      value: {fileID: -5393814772064220820, guid: 8e2df64f0252aa54d9db81739c46b0da, type: 3}
-    - time: 0.41666666
-      value: {fileID: 2814668294816452868, guid: 8e2df64f0252aa54d9db81739c46b0da, type: 3}
-    attribute: m_Sprite
-    path: 
-    classID: 212
-    script: {fileID: 0}
-    flags: 2
-  m_SampleRate: 12
+  m_PPtrCurves: []
+  m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -78,7 +65,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 3819956433
+      path: 3520597197
       attribute: 2086281974
       script: {fileID: 0}
       typeID: 1
@@ -86,25 +73,13 @@ AnimationClip:
       isPPtrCurve: 0
       isIntCurve: 0
       isSerializeReferenceCurve: 0
-    - serializedVersion: 2
-      path: 0
-      attribute: 0
-      script: {fileID: 0}
-      typeID: 212
-      customType: 23
-      isPPtrCurve: 1
-      isIntCurve: 0
-      isSerializeReferenceCurve: 0
-    pptrCurveMapping:
-    - {fileID: -5684318836787401456, guid: 8e2df64f0252aa54d9db81739c46b0da, type: 3}
-    - {fileID: -5393814772064220820, guid: 8e2df64f0252aa54d9db81739c46b0da, type: 3}
-    - {fileID: 2814668294816452868, guid: 8e2df64f0252aa54d9db81739c46b0da, type: 3}
+    pptrCurveMapping: []
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.5
+    m_StopTime: 1.9833333
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -134,7 +109,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.083333336
+        time: 1.5
         value: 1
         inSlope: Infinity
         outSlope: Infinity
@@ -143,7 +118,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.41666666
+        time: 1.9833333
         value: 0
         inSlope: Infinity
         outSlope: Infinity
@@ -155,7 +130,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_IsActive
-    path: hitboxpunch
+    path: HitCollider
     classID: 1
     script: {fileID: 0}
     flags: 0

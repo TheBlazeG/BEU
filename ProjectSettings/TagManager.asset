@@ -4,12 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-
   - hitplayer
-  - Enemy
-  - Golpe
+  - BossLimitLasers
   - fin
-
+  - Enemy
   layers:
   - Default
   - TransparentFX

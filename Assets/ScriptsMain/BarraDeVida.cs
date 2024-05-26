@@ -6,8 +6,7 @@ using UnityEngine.SceneManagement;
 public class BarraDeVida : MonoBehaviour
 {
 
-    private Slider slider;
-    public FloatValue playerHealth;
+    [SerializeField]private Slider slider;
     [SerializeField] public float health;
     [SerializeField] PlayerMovement player;
 
@@ -17,16 +16,17 @@ public class BarraDeVida : MonoBehaviour
         player = GameObject.Find("Player").GetComponent<PlayerMovement>();
     }
 
-    public void CambiarVidaMaxima(float playerHealth)
+    public void CambiarVidaMaxima()
     {
-        slider.maxValue = playerHealth;
+        slider.maxValue = player.maxPlayerHealth;
+        slider.value = player.maxPlayerHealth;
     }
 
-    public void CambiarVidaActual(float health)
+    public void CambiarVidaActual()
     {
         if (player.health <= 0)
         {
-            SceneManager.LoadScene("muerte");
+            //SceneManager.LoadScene("muerte");
         } else
         {
             slider.value = player.health;
@@ -35,9 +35,9 @@ public class BarraDeVida : MonoBehaviour
         
     }
 
-    public void InicializarBarraDeVida(float health)
+    public void InicializarBarraDeVida()
     {
-        CambiarVidaMaxima(player.health);
-        CambiarVidaActual(player.health);
+        CambiarVidaMaxima();
+        CambiarVidaActual();
     }
 }

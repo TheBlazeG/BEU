@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public enum PlayerState
 {
@@ -19,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] public float health;
     public float speed;
-    public FloatValue playerHealth;
+    public float maxPlayerHealth=30;
     private Rigidbody2D myRigidbody;
     private Vector3 change;
     private Vector3 ardir;
@@ -28,37 +29,56 @@ public class PlayerMovement : MonoBehaviour
     public PlayerState currentState;
     [SerializeField] public Vector2 direction;
     [SerializeField] BarraDeVida barra;
-    public static int numberOfAttacks;
+    [SerializeField] Slider barraCombo;
+    public int numberOfAttacks;
     float lastAttackedTime=0;
     float lastDodgeTime=0;
-    float maxComboDelay = 1;
+    float maxComboDelay = .6f;
     private float nextFireTime = 0;
     bool canDash=true;
-   
+    public bool inRage=true;
+    ComboCount comboCount;
+    
+    PlayerMovement player;
+    SpriteRenderer playerRenderer;
+
     // PlayerDash pd;
     void Start()
     {
         animator = GetComponent<Animator>();
         myRigidbody = GetComponent<Rigidbody2D>();
         ardir.y = -1;
+        playerRenderer = GetComponent<SpriteRenderer>();
+        
         //pd = GetComponent<PlayerDash>();
+
     }
     private void Update()
     {
-
+        
         if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime>.7 && animator.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
         {
             animator.SetBool("attack1", false);
+           
         }
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > .7 && animator.GetCurrentAnimatorStateInfo(0).IsName("hit2"))
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > .8 && animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerPunch2"))
         {
-            animator.SetBool("attack2", false);
+            
+            animator.SetBool("Attack2", false);
+           
         }
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > .7 && animator.GetCurrentAnimatorStateInfo(0).IsName("hit3"))
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > .7 && animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerPunch3"))
         {
+            
             animator.SetBool("attack3", false);
             numberOfAttacks = 0;
         }
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") && numberOfAttacks==3 )
+        {
+            
+            numberOfAttacks = 0;
+        }
+
 
         if (Time.time - lastAttackedTime > maxComboDelay)
             numberOfAttacks = 0;
@@ -86,17 +106,14 @@ public class PlayerMovement : MonoBehaviour
         change = Vector3.zero;
         change.x = Input.GetAxisRaw("Horizontal") * Time.deltaTime ;
         change.y = Input.GetAxisRaw("Vertical") * Time.deltaTime ;
-        
 
-        /*if (Input.GetButtonDown("attack") && currentState != PlayerState.attack)
+
+        if (Input.GetButtonDown("attack") && currentState != PlayerState.attack)
         {
-            lastAttackedTime = Time.time;
-            numberOfAttacks++;
-            Debug.Log("attack button prssed");
-            StartCoroutine(AttackCo());
+           StartCoroutine(Colorchange(playerRenderer,inRage));
         
-        }*/
-        if(Time.time > nextFireTime)
+        }
+        if (Time.time > nextFireTime)
         if (Input.GetButtonDown("attack2") && currentState != PlayerState.attack && currentState != PlayerState.stagger)//attaaaaaaaack
         {
             attack();
@@ -130,7 +147,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        //health = playerHealth.initialValue;
+        health = maxPlayerHealth;
+        barra.CambiarVidaMaxima();
     }
 
     private void TakeDamage(float damage)
@@ -231,7 +249,7 @@ public class PlayerMovement : MonoBehaviour
         StartCoroutine(KnockCo(knockTime));
         Debug.Log("Knock");
         TakeDamage(damage);
-        barra.CambiarVidaActual(health);
+        barra.CambiarVidaActual();
     }
 
     void MovePlayer()
@@ -244,7 +262,6 @@ public class PlayerMovement : MonoBehaviour
     {
         lastAttackedTime = Time.time;
         numberOfAttacks++;
-        Debug.Log("sword button prssed");
         //StartCoroutine(AttackSword());
         if (numberOfAttacks == 1)
         {
@@ -252,13 +269,13 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("attack1", true);
         }
         numberOfAttacks = Mathf.Clamp(numberOfAttacks, 0, 3);
-        if (numberOfAttacks >= 2 && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && animator.GetCurrentAnimatorStateInfo(0).IsName("punch"))
+        if (numberOfAttacks >= 2 && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.2 )
 
         {
             animator.SetBool("attack1", false);
             animator.SetBool("Attack2", true);
         }
-        if (numberOfAttacks >= 3 && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && animator.GetCurrentAnimatorStateInfo(0).IsName("hit2"))
+        if (numberOfAttacks >= 3 && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.3 )
         {
             animator.SetBool("Attack2", false);
             animator.SetBool("attack3", true);
@@ -273,28 +290,54 @@ public class PlayerMovement : MonoBehaviour
         lastDodgeTime = Time.time;  
         speed=600;
     }
-    /*
-     agregamos nueva barra
 
-    if(cantidad de barra>checkpoint && superActive=false)
-    Mathf.Clamp(cantidad de barra, 15, 30);
+    void Super()
+    {
+        if (barraCombo.value >= 10)
+        {
+            barraCombo.value -= 10;
+            animator.SetBool("Super", true);
+        }
+    }
+    public void Rage()
+    {
+        if (barraCombo.value == 20)
+        {
+            barraCombo.value = 0;
+            animator.SetBool("Super", true);
+            StartCoroutine(Ragetime());
+            StartCoroutine(Colorchange(playerRenderer, inRage));
+        }
+    }
+    IEnumerator Ragetime()
+    {
+        player.inRage = true;
+        new WaitForSeconds(20);
+        player.inRage = false;
+        yield return null;
 
-    if (Input.GetButtonDown("super") && cantidad de barra!=maxcantidad de barra)
-     {
-    superActive=true;
-     cantidad de barra-=15;
-}
+    }
+    IEnumerator Colorchange(SpriteRenderer playerRenderer, bool inRage)
+    {
+        
+            playerRenderer.color = Color.blue;
+            yield return new WaitForSeconds(.1f);
+            playerRenderer.color = Color.red;
+            yield return new WaitForSeconds(.1f);
+            playerRenderer.color = Color.green;
+        yield return new WaitForSeconds(.1f);
+            playerRenderer.color = Color.yellow;
+        yield return new WaitForSeconds(.1f);
+            playerRenderer.color = Color.magenta;
+        yield return new WaitForSeconds(.1f);
 
-    if (Input.GetButtonDown("super") && cantidad de barra>=maxcantidad de barra)
-     superActive=true;
-     cantidad de barra=0;
-    superMode=Active;
-     
-     
-     
-     
-     
-     
-     
-     */
+
+
+
+        
+        playerRenderer.color = Color.white;
+        yield return null;
+
+    }
+
 }
