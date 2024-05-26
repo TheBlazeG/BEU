@@ -6,6 +6,8 @@ TagManager:
   tags:
   - hitplayer
   - BossLimitLasers
+  - fin
+  - Enemy
   layers:
   - Default
   - TransparentFX

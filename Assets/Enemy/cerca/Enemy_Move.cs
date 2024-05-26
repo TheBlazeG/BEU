@@ -5,18 +5,21 @@ using UnityEngine;
 public class Enemy_Move : MonoBehaviour
 {
     public Transform player; // Referencia al transform del jugador
-    public float speed = 5f; // Velocidad a la que el enemigo se mover· hacia el jugador
-    public float minDistance = 1f; // Distancia mÌnima para activar los colliders
-    public float retreatDistance = 5f; // Distancia a la que se alejar· el enemigo despuÈs de activar los colliders
-    public float retreatSpeed = 3f; // Velocidad a la que el enemigo se alejar·
+    public float speed = 5f; // Velocidad a la que el enemigo se moverÅEhacia el jugador
+    public float minDistance = 1f; // Distancia m˙ãima para activar los colliders
+    public float retreatDistance = 5f; // Distancia a la que se alejarÅEel enemigo despuÈs de activar los colliders
+    public float retreatSpeed = 3f; // Velocidad a la que el enemigo se alejarÅE
     public Collider2D collider1; // Primer collider a activar
     public Collider2D collider2; // Segundo collider a activar
     public int maxCollisionCount = 3; // Cantidad m·xima de colisiones permitidas antes de destruirse
     public float waitBeforeActivatingColliders = 2f; // Tiempo de espera antes de activar los colliders
+    int hitsToKb = 0;
+    float timeForKb = 0;
+    SpawnerActivate spawner;
 
     private bool followingPlayer = true; // Variable para controlar si el enemigo sigue al jugador o no
     private int collisionCount = 0; // Contador de colisiones
-    private Vector2 lastDirection; // DirecciÛn en la que el enemigo se acercÛ al jugador
+    private Vector2 lastDirection; // DirecciÛn en la que el enemigo se acercÅEal jugador
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -28,18 +31,24 @@ public class Enemy_Move : MonoBehaviour
             {
                 StopEnemyForOneSecond();
             }
-
+            if(hitsToKb>=3)
+            {
+                
+            }
             // Incrementa el contador de colisiones
             collisionCount++;
+            hitsToKb++;
+            timeForKb=Time.time;
 
             // Si el contador llega a la cantidad m·xima, destruye el objeto enemigo
             if (collisionCount >= maxCollisionCount)
             {
                 Destroy(gameObject);
+                spawner.enemiesSlain++;
             }
             else
             {
-                // Si no ha alcanzado el lÌmite, detiene completamente al enemigo
+                // Si no ha alcanzado el l˙äite, detiene completamente al enemigo
                 StopEnemy();
             }
         }
@@ -66,6 +75,10 @@ public class Enemy_Move : MonoBehaviour
 
     private void Update()
     {
+        if (Time.time-timeForKb>.6)
+        {
+        hitsToKb = 0;
+        }
         if (player != null)
         {
             // Calcula la direcciÛn hacia la posiciÛn del jugador
@@ -74,7 +87,7 @@ public class Enemy_Move : MonoBehaviour
             // Si el enemigo sigue al jugador
             if (followingPlayer)
             {
-                // Guarda la ˙ltima direcciÛn en la que se moviÛ hacia el jugador
+                // Guarda la ˙ltima direcciÛn en la que se moviÅEhacia el jugador
                 lastDirection = direction;
 
                 // Mueve al enemigo hacia el jugador con una velocidad constante
@@ -83,7 +96,7 @@ public class Enemy_Move : MonoBehaviour
                 // Verifica la posiciÛn relativa del jugador
                 if (player.position.x < transform.position.x)
                 {
-                    // Jugador est· a la izquierda, enemigo debe estar normal
+                    // Jugador estÅEa la izquierda, enemigo debe estar normal
                     if (transform.localScale.x < 0)
                     {
                         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
@@ -91,7 +104,7 @@ public class Enemy_Move : MonoBehaviour
                 }
                 else if (player.position.x > transform.position.x)
                 {
-                    // Jugador est· a la derecha, enemigo debe girar 180 grados
+                    // Jugador estÅEa la derecha, enemigo debe girar 180 grados
                     if (transform.localScale.x > 0)
                     {
                         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
@@ -102,7 +115,7 @@ public class Enemy_Move : MonoBehaviour
             // Calcula la distancia entre el enemigo y el jugador
             float distance = Vector2.Distance(transform.position, player.position);
 
-            // Si el enemigo est· lo suficientemente cerca del jugador
+            // Si el enemigo estÅElo suficientemente cerca del jugador
             if (distance <= minDistance && followingPlayer)
             {
                 // Activa los colliders secuencialmente con una espera antes
@@ -169,7 +182,7 @@ public class Enemy_Move : MonoBehaviour
             yield return null;
         }
 
-        transform.position = endPos; // Aseg˙rate de que el enemigo estÈ en la posiciÛn final
+        transform.position = endPos; // Aseg˙rate de que el enemigo estÅEen la posiciÛn final
 
         // Una vez que se haya movido a la derecha o izquierda, vuelve a seguir al jugador
         followingPlayer = true;
