@@ -130,7 +130,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      scottpilgrim1bosssfight_0: 8494708275754352275
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

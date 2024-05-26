@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     private float nextFireTime = 0;
     bool canDash=true;
     public bool inRage=true;
+    bool isInChange=false;
     ComboCount comboCount;
     
     PlayerMovement player;
@@ -55,18 +56,25 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
-        if (myRigidbody.velocity.x > 0 && currentState != PlayerState.stagger)
+        if (inRage)
+        {
+            if (!isInChange)
+            {
+                StartCoroutine(Colorchange(playerRenderer, isInChange));
+            }
+        }
+        if (myRigidbody.velocity.x > 0 && currentState != PlayerState.attack)
         {
             transform.localScale = new Vector3(1, 1, 1);
         }
-        if(myRigidbody.velocity.x < 0 && currentState != PlayerState.stagger)
+        if(myRigidbody.velocity.x < 0 && currentState != PlayerState.attack)
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
 
         if (numberOfAttacks > 0)
         {
-            currentState = PlayerState.stagger;
+            currentState = PlayerState.attack;
         }
         else
         {
@@ -85,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("Attack2", false);
            
         }
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > .7 && animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerPunch3"))
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >.99 && animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerPunch3"))
         {
             
             animator.SetBool("attack3", false);
@@ -128,11 +136,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("attack") && currentState != PlayerState.attack)
         {
-           StartCoroutine(Colorchange(playerRenderer,inRage));
+           StartCoroutine(Colorchange(playerRenderer,isInChange));
         
         }
         if (Time.time > nextFireTime)
-        if (Input.GetButtonDown("attack2") && currentState != PlayerState.attack && currentState != PlayerState.stagger)//attaaaaaaaack
+        if (Input.GetButtonDown("attack2")  && currentState != PlayerState.stagger)//attaaaaaaaack
         {
             attack();
         }
@@ -275,7 +283,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
         
 
-        if (currentState != PlayerState.stagger) 
+        if (currentState != PlayerState.stagger && currentState != PlayerState.attack) 
         {
             myRigidbody.velocity = direction * Time.fixedDeltaTime * speed;
         }
@@ -333,7 +341,7 @@ public class PlayerMovement : MonoBehaviour
             barraCombo.value = 0;
             animator.SetBool("Super", true);
             StartCoroutine(Ragetime());
-            StartCoroutine(Colorchange(playerRenderer, inRage));
+            
         }
     }
     IEnumerator Ragetime()
@@ -344,9 +352,9 @@ public class PlayerMovement : MonoBehaviour
         yield return null;
 
     }
-    IEnumerator Colorchange(SpriteRenderer playerRenderer, bool inRage)
+    IEnumerator Colorchange(SpriteRenderer playerRenderer, bool changing)
     {
-        
+        changing = true;
             playerRenderer.color = Color.blue;
             yield return new WaitForSeconds(.1f);
             playerRenderer.color = Color.red;
@@ -363,6 +371,7 @@ public class PlayerMovement : MonoBehaviour
 
         
         playerRenderer.color = Color.white;
+        changing = false;
         yield return null;
 
     }
