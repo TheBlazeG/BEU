@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("attack1", false);
             numberOfAttacks = 0;
         }
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > .7 && animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerPunch2"))
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > .7  && animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerPunch2"))
         {
             Debug.Log("punch2");
             animator.SetBool("Attack2", false);
