@@ -5,21 +5,26 @@ using UnityEngine;
 public class Enemy_Move : MonoBehaviour
 {
     public Transform player; // Referencia al transform del jugador
-    public float speed = 5f; // Velocidad a la que el enemigo se moverEhacia el jugador
-    public float minDistance = 1f; // Distancia mú‹ima para activar los colliders
-    public float retreatDistance = 5f; // Distancia a la que se alejarEel enemigo después de activar los colliders
-    public float retreatSpeed = 3f; // Velocidad a la que el enemigo se alejarE
-    public Collider2D collider1; // Primer collider a activar
-    public Collider2D collider2; // Segundo collider a activar
+    public float speed = 5f; // Velocidad a la que el enemigo se moverá hacia el jugador
+    public float minDistance = 1f; // Distancia mínima para activar la animación de ataque
+    public float retreatDistance = 5f; // Distancia a la que se alejará el enemigo después de atacar
+    public float retreatSpeed = 3f; // Velocidad a la que el enemigo se alejará
     public int maxCollisionCount = 3; // Cantidad máxima de colisiones permitidas antes de destruirse
-    public float waitBeforeActivatingColliders = 2f; // Tiempo de espera antes de activar los colliders
+    public float attackDelay = 1f; // Tiempo de espera antes de iniciar la animación de ataque
+    public float postAttackDelay = 1f; // Tiempo de espera después de la animación de ataque
     int hitsToKb = 0;
     float timeForKb = 0;
-    SpawnerActivate spawner;
+    public SpawnerActivate spawner; // Referencia al spawner
+    Animator animator;
 
     private bool followingPlayer = true; // Variable para controlar si el enemigo sigue al jugador o no
     private int collisionCount = 0; // Contador de colisiones
-    private Vector2 lastDirection; // Dirección en la que el enemigo se acercEal jugador
+    private Vector2 lastDirection; // Dirección en la que el enemigo se acercó al jugador
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -31,14 +36,15 @@ public class Enemy_Move : MonoBehaviour
             {
                 StopEnemyForOneSecond();
             }
-            if(hitsToKb>=3)
+            if (hitsToKb >= 3)
             {
-                
+                // Puedes agregar lógica adicional aquí si lo deseas
             }
+
             // Incrementa el contador de colisiones
             collisionCount++;
             hitsToKb++;
-            timeForKb=Time.time;
+            timeForKb = Time.time;
 
             // Si el contador llega a la cantidad máxima, destruye el objeto enemigo
             if (collisionCount >= maxCollisionCount)
@@ -48,7 +54,7 @@ public class Enemy_Move : MonoBehaviour
             }
             else
             {
-                // Si no ha alcanzado el lúŠite, detiene completamente al enemigo
+                // Si no ha alcanzado el límite, detiene completamente al enemigo
                 StopEnemy();
             }
         }
@@ -75,10 +81,11 @@ public class Enemy_Move : MonoBehaviour
 
     private void Update()
     {
-        if (Time.time-timeForKb>.6)
+        if (Time.time - timeForKb > 0.6f)
         {
-        hitsToKb = 0;
+            hitsToKb = 0;
         }
+
         if (player != null)
         {
             // Calcula la dirección hacia la posición del jugador
@@ -87,7 +94,7 @@ public class Enemy_Move : MonoBehaviour
             // Si el enemigo sigue al jugador
             if (followingPlayer)
             {
-                // Guarda la última dirección en la que se moviEhacia el jugador
+                // Guarda la última dirección en la que se movió hacia el jugador
                 lastDirection = direction;
 
                 // Mueve al enemigo hacia el jugador con una velocidad constante
@@ -96,7 +103,7 @@ public class Enemy_Move : MonoBehaviour
                 // Verifica la posición relativa del jugador
                 if (player.position.x < transform.position.x)
                 {
-                    // Jugador estEa la izquierda, enemigo debe estar normal
+                    // Jugador está a la izquierda, enemigo debe estar normal
                     if (transform.localScale.x < 0)
                     {
                         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
@@ -104,7 +111,7 @@ public class Enemy_Move : MonoBehaviour
                 }
                 else if (player.position.x > transform.position.x)
                 {
-                    // Jugador estEa la derecha, enemigo debe girar 180 grados
+                    // Jugador está a la derecha, enemigo debe girar 180 grados
                     if (transform.localScale.x > 0)
                     {
                         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
@@ -115,12 +122,12 @@ public class Enemy_Move : MonoBehaviour
             // Calcula la distancia entre el enemigo y el jugador
             float distance = Vector2.Distance(transform.position, player.position);
 
-            // Si el enemigo estElo suficientemente cerca del jugador
+            // Si el enemigo está lo suficientemente cerca del jugador
             if (distance <= minDistance && followingPlayer)
             {
-                // Activa los colliders secuencialmente con una espera antes
-                StartCoroutine(WaitAndActivateColliders());
-                followingPlayer = false; // Deja de seguir al jugador
+                // Deja de seguir al jugador y se prepara para atacar
+                followingPlayer = false;
+                StartCoroutine(WaitAndAttack());
             }
             // Si el enemigo ha retrocedido lo suficiente
             else if (!followingPlayer && distance >= retreatDistance)
@@ -130,27 +137,21 @@ public class Enemy_Move : MonoBehaviour
         }
     }
 
-    // Corrutina para esperar antes de activar los colliders secuencialmente
-    private IEnumerator WaitAndActivateColliders()
+    // Corrutina para esperar antes de iniciar la animación de ataque y luego moverse
+    private IEnumerator WaitAndAttack()
     {
-        yield return new WaitForSeconds(waitBeforeActivatingColliders);
-        yield return StartCoroutine(ActivateCollidersSequentially());
-    }
+        yield return new WaitForSeconds(attackDelay); // Espera antes de iniciar la animación de ataque
 
-    // Corrutina para activar los colliders secuencialmente
-    private IEnumerator ActivateCollidersSequentially()
-    {
-        // Activa el primer collider
-        collider1.enabled = true;
-        yield return new WaitForSeconds(0.5f);
+        animator.SetBool("Attacking", true); // Activa la animación de ataque
 
-        // Activa el segundo collider
-        collider2.enabled = true;
-        yield return new WaitForSeconds(0.5f);
+        // Espera a que termine la animación de ataque
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
 
-        // Desactiva ambos colliders
-        collider1.enabled = false;
-        collider2.enabled = false;
+        // Desactiva la animación de ataque
+        animator.SetBool("Attacking", false);
+
+        // Espera un tiempo después de la animación de ataque antes de moverse
+        yield return new WaitForSeconds(postAttackDelay);
 
         // Mueve al enemigo hacia la dirección contraria
         StartCoroutine(MoveAway());
@@ -182,12 +183,15 @@ public class Enemy_Move : MonoBehaviour
             yield return null;
         }
 
-        transform.position = endPos; // Asegúrate de que el enemigo estEen la posición final
+        transform.position = endPos; // Asegúrate de que el enemigo esté en la posición final
 
         // Una vez que se haya movido a la derecha o izquierda, vuelve a seguir al jugador
         followingPlayer = true;
     }
 }
+
+
+
 
 
 
