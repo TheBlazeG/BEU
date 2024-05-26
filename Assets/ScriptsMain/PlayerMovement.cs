@@ -55,7 +55,25 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
-        
+        if (myRigidbody.velocity.x > 0 && currentState != PlayerState.stagger)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        if(myRigidbody.velocity.x < 0 && currentState != PlayerState.stagger)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+
+        if (numberOfAttacks > 0)
+        {
+            currentState = PlayerState.stagger;
+        }
+        else
+        {
+            currentState = PlayerState.walk;
+        }
+
+
         if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime>.7 && animator.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
         {
             animator.SetBool("attack1", false);
@@ -256,7 +274,16 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
         
-        myRigidbody.velocity = direction * Time.fixedDeltaTime * speed;
+
+        if (currentState != PlayerState.stagger) 
+        {
+            myRigidbody.velocity = direction * Time.fixedDeltaTime * speed;
+        }
+        else
+        {
+            myRigidbody.velocity = new Vector2(0, 0);
+        }
+
     }
     void attack()
     {
