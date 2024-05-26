@@ -55,7 +55,16 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
-        
+        if (myRigidbody.velocity.x > 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        if(myRigidbody.velocity.x < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+
+
         if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime>.7 && animator.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
         {
             animator.SetBool("attack1", false);

@@ -10,13 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 7919152393132524227}
   - component: {fileID: 8793203425448274642}
+  - component: {fileID: 4996854175120363569}
   m_Layer: 0
   m_Name: hitboxpunch
   m_TagString: hitplayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7919152393132524227
 Transform:
   m_ObjectHideFlags: 0
@@ -39,7 +40,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3754058569106259666}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -66,7 +67,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 1.339252, y: 1.1160693}
+  m_Offset: {x: 0.8015529, y: 1.1160693}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -76,8 +77,21 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.4690552, y: 0.6534734}
+  m_Size: {x: 2.5444534, y: 0.6534734}
   m_EdgeRadius: 0
+--- !u!114 &4996854175120363569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3754058569106259666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ddb9ef7f5d226b48830f1d0b78c416c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barraCombo: {fileID: 0}
 --- !u!1 &3937665831779445534
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,10 +137,9 @@ GameObject:
   - component: {fileID: 1230806135412762415}
   - component: {fileID: 1181399798264421496}
   - component: {fileID: 7668037801516190979}
-  - component: {fileID: 7009572202197090535}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -160,13 +173,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e45f9117547fd1f458c4247ac7f98ae2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
+  health: 30
   speed: 30
-  playerHealth: {fileID: 0}
+  maxPlayerHealth: 30
   projectile: {fileID: 0}
   currentState: 0
   direction: {x: 0, y: 0}
   barra: {fileID: 0}
+  numberOfAttacks: 0
+  inRage: 1
 --- !u!95 &72843115742442802
 Animator:
   serializedVersion: 7
@@ -316,15 +331,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7009572202197090535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8449720116607798644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ddb9ef7f5d226b48830f1d0b78c416c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
