@@ -15,7 +15,7 @@ public class BossMovement : MonoBehaviour
 
     private int launchingLasersYDirection = 1, launchedLasers = 0;
     private float timerLaunchALaser = 0, timerLaunchingLasers = 0, timerMovingBossLasers = 0;
-    private bool hiting = false, hitNearCoolDown = true, launchingLasers = false, launchingALaser = false, takeTimeTimerMovingBossLasers = true, takeTimeTimerLaunchingLasers = true, takeTimerTimeLaunchALaser = true;
+    private bool hiting = false, hitNearCoolDown = true, launchingLasers = false, launchingALaser = false, takeTimeTimerMovingBossLasers = true, takeTimeTimerLaunchingLasers = true, bossInXPlace = false;
 
     Vector2 playerPositionReference;
 
@@ -27,7 +27,7 @@ public class BossMovement : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(timerMovingBossLasers);
+        Debug.Log(bossInXPlace);
 
         if(playerPositionReference.x > 0) 
         {
@@ -105,13 +105,14 @@ public class BossMovement : MonoBehaviour
             launchingLasers = false;
         }
 
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 2f && animator.GetCurrentAnimatorStateInfo(0).IsName("BossLaunchLaser"))
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.2f && animator.GetCurrentAnimatorStateInfo(0).IsName("BossLaunchLaser") && bossInXPlace)
         {
+            Debug.Log("move");
             animator.SetBool("movinglaser", false);
             launchingALaser = true;
         }
 
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f && animator.GetCurrentAnimatorStateInfo(0).IsName("LaunchLaser"))
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f && animator.GetCurrentAnimatorStateInfo(0).IsName("LaunchLaser"))
         {
             animator.SetBool("movinglaser", true);
             launchingALaser = false;
@@ -119,10 +120,12 @@ public class BossMovement : MonoBehaviour
         
         if (transform.position.x < launchingLasersPlaceX)
         {
+            bossInXPlace = false;
             transform.Translate((walkingSpeed * 4) * Time.deltaTime, 0, 0);
         }
         else
         {
+            bossInXPlace = true;
             if(!launchingALaser) 
             {
                 transform.Translate(0, (walkingSpeed * 20) * launchingLasersYDirection * Time.deltaTime, 0);
