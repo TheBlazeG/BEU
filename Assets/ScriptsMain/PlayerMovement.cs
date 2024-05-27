@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
     float maxComboDelay = .6f;
     private float nextFireTime = 0;
     bool canDash=true;
-    [SerializeField]bool inRage=false;
+    [SerializeField] public bool inRage=false;
     bool isInChange=false;
     [SerializeField]ComboCount comboCount;
     
@@ -292,6 +292,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (comboCount.barraCombo.value >= 20 && !inRage)
         {
+            speed *= 1.5f;
             StartCoroutine(Ragetime());
             comboCount.barraCombo.value -= 20;
             Super();
@@ -309,6 +310,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("monke");
         inRage = true;
         yield return new WaitForSeconds(20);
+        speed /= 1.5f;
         inRage = false;
         
 

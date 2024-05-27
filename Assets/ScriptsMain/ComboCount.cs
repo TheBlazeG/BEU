@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class ComboCount : MonoBehaviour
 {
     [SerializeField] public Slider barraCombo;
+    [SerializeField] PlayerMovement playerMovement;
     
     int combo;
     float comboTimer;
@@ -37,7 +38,7 @@ public class ComboCount : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy")) {
+        if (collision.CompareTag("Enemy") && !playerMovement.inRage) {
             Debug.Log(comboMultiplier);
             comboTimer= Time.time;
             combo++;

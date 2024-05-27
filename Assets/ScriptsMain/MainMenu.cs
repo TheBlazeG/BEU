@@ -16,6 +16,12 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    public void Retry()
+    {
+        // Asegúrate de que la escena del juego esté agregada en la lista de escenas en la configuración de Build
+        SceneManager.LoadScene("Boss");
+    }
+
     // Este método se llama cuando se presiona el botón Salir
     public void QuitGame()
     {

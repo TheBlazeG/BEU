@@ -26,7 +26,7 @@ public class BarraDeVida : MonoBehaviour
     {
         if (player.health <= 0)
         {
-            SceneManager.LoadScene("muerte");
+            SceneManager.LoadScene("Death");
         } else
         {
             slider.value = player.health;

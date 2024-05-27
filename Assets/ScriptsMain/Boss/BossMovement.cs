@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.XR;
+using UnityEngine.SceneManagement;
 
 public class BossMovement : MonoBehaviour
 {
@@ -164,7 +165,10 @@ public class BossMovement : MonoBehaviour
     {
         animator.SetBool("die", true);
         if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= .99 && animator.GetCurrentAnimatorStateInfo(0).IsName("BossExplosion"))
-        Destroy(gameObject);
+        {
+            Destroy(gameObject);
+            SceneManager.LoadScene("WinScene");
+        }
     }
 
     private void TakeDamaga()
