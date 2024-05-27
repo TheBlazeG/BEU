@@ -10,8 +10,9 @@ public class BossMovement : MonoBehaviour
     [SerializeField] Animator animator;
 
     [SerializeField] GameObject player;
-    [SerializeField] int hitNearDamage, maxHealth, currentHealth;
-    [SerializeField] float walkingSpeed, maxDistanceToPlayerX, launchingLasersPlaceX;
+    PlayerMovement playerMovementScript;
+    [SerializeField] int hitNearDamage, maxHealth;
+    [SerializeField] float walkingSpeed, maxDistanceToPlayerX, launchingLasersPlaceX, currentHealth, damage;
 
     private int launchingLasersYDirection = 1, launchedLasers = 0;
     private float timerLaunchALaser = 0, timerLaunchingLasers = 0, timerMovingBossLasers = 0;
@@ -22,6 +23,7 @@ public class BossMovement : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("Player");
+        playerMovementScript = player.gameObject.GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
     }
 
@@ -77,8 +79,9 @@ public class BossMovement : MonoBehaviour
         }
     }
 
-    private void HitPlayer(int Damage)
+    private void HitPlayer()
     {
+        playerMovementScript.Knock(damage);
     }
 
     private void HitPlayerNear()
@@ -145,16 +148,21 @@ public class BossMovement : MonoBehaviour
         hitNearCoolDown = true;
     }
 
+    private void TakeDamaga()
+    {
+        currentHealth -= playerMovementScript.damage;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Player") && (hiting || launchingLasers))
+        if(collision.CompareTag("Player") && launchingLasers)
         {
-            HitPlayer(hitNearDamage);
+            HitPlayer();
         }
 
         if (collision.CompareTag("hitplayer"))
         {
-            //takedamage;
+            TakeDamaga();
         }
 
         if (collision.CompareTag("BossLimitLasers"))

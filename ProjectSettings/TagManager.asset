@@ -8,6 +8,7 @@ TagManager:
   - BossLimitLasers
   - fin
   - Enemy
+  - BossHitCollider
   layers:
   - Default
   - TransparentFX

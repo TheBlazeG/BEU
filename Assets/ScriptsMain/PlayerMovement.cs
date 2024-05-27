@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public float health;
     public float speed;
     public float maxPlayerHealth=30;
+    public float damage = 1;
     private Rigidbody2D myRigidbody;
     private Vector3 change;
     private Vector3 ardir;
@@ -56,6 +57,8 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
+        Debug.Log(currentState);
+
         if (inRage)
         {
             if (!isInChange)
@@ -76,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
         {
             currentState = PlayerState.attack;
         }
-        else
+        else if(currentState != PlayerState.stagger)
         {
             currentState = PlayerState.walk;
         }
@@ -139,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
            StartCoroutine(Colorchange(playerRenderer,isInChange));
         
         }
-        if (Time.time > nextFireTime)
+
         if (Input.GetButtonDown("attack2")  && currentState != PlayerState.stagger)//attaaaaaaaack
         {
             attack();
@@ -180,6 +183,7 @@ public class PlayerMovement : MonoBehaviour
     private void TakeDamage(float damage)
     {
         health -= damage;
+        barra.CambiarVidaActual();
         if (health <= 0)
         {
             this.gameObject.SetActive(false);
@@ -261,18 +265,19 @@ public class PlayerMovement : MonoBehaviour
     }
     private IEnumerator KnockCo(float knockTime)
     {
-        if (myRigidbody != null || currentState != PlayerState.stagger)
+        if (currentState != PlayerState.stagger)
         {
+            currentState = PlayerState.stagger;
             yield return new WaitForSeconds(knockTime);
             myRigidbody.velocity = Vector2.zero;
             currentState = PlayerState.idle;
             myRigidbody.velocity = Vector2.zero;
         }
     }
-    public void Knock(float knockTime, float damage)
+    public void Knock(float damage)
     {
 
-        StartCoroutine(KnockCo(knockTime));
+        StartCoroutine(KnockCo(.3f));
         Debug.Log("Knock");
         TakeDamage(damage);
         barra.CambiarVidaActual();
