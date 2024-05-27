@@ -13,8 +13,9 @@ public class BossMovement : MonoBehaviour
     [SerializeField] int hitNearDamage, maxHealth, currentHealth;
     [SerializeField] float walkingSpeed, maxDistanceToPlayerX, launchingLasersPlaceX;
 
-    private int launchingLasersYDirection = 1;
-    private bool hiting = false, hitNearCoolDown = true, launchingLasers = false, launchingALaser = false;
+    private int launchingLasersYDirection = 1, launchedLasers = 0;
+    private float timerLaunchALaser = 0, timerLaunchingLasers = 0, timerMovingBossLasers = 0;
+    private bool hiting = false, hitNearCoolDown = true, launchingLasers = false, launchingALaser = false, takeTimeTimerMovingBossLasers = true, takeTimeTimerLaunchingLasers = true, bossInXPlace = false;
 
     Vector2 playerPositionReference;
 
@@ -26,6 +27,7 @@ public class BossMovement : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(bossInXPlace);
 
         if(playerPositionReference.x > 0) 
         {
@@ -43,9 +45,20 @@ public class BossMovement : MonoBehaviour
 
         
 
-        if (currentHealth < 70 && currentHealth > 30)
+        if (currentHealth < 70 && currentHealth > 30 && launchedLasers <= 0)
         {
-            StartCoroutine(LaunchLasers());
+            launchedLasers++;
+            launchingLasers = true;
+        }
+
+        if (launchingLasers)
+        {
+            animator.SetBool("launchlaser", true);
+            MoveBossLaunchingLasers();
+        }
+        else
+        {
+            animator.SetBool("launchlaser", false);
         }
     }
 
@@ -66,7 +79,6 @@ public class BossMovement : MonoBehaviour
 
     private void HitPlayer(int Damage)
     {
-        Debug.Log(Damage);
     }
 
     private void HitPlayerNear()
@@ -77,6 +89,50 @@ public class BossMovement : MonoBehaviour
             hiting = true;
             StartCoroutine(HitPlayerAnimation());
         }
+    }
+    private void MoveBossLaunchingLasers()
+    {
+
+
+        if (takeTimeTimerLaunchingLasers)
+        {
+            timerLaunchingLasers = Time.time;
+            takeTimeTimerLaunchingLasers = false;
+        }
+
+        if (Time.time - timerLaunchingLasers > 20)
+        {
+            launchingLasers = false;
+        }
+
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.2f && animator.GetCurrentAnimatorStateInfo(0).IsName("BossLaunchLaser") && bossInXPlace)
+        {
+            Debug.Log("move");
+            animator.SetBool("movinglaser", false);
+            launchingALaser = true;
+        }
+
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f && animator.GetCurrentAnimatorStateInfo(0).IsName("LaunchLaser"))
+        {
+            animator.SetBool("movinglaser", true);
+            launchingALaser = false;
+        }
+        
+        if (transform.position.x < launchingLasersPlaceX)
+        {
+            bossInXPlace = false;
+            transform.Translate((walkingSpeed * 4) * Time.deltaTime, 0, 0);
+        }
+        else
+        {
+            bossInXPlace = true;
+            if(!launchingALaser) 
+            {
+                transform.Translate(0, (walkingSpeed * 20) * launchingLasersYDirection * Time.deltaTime, 0);
+            }
+        }
+
+        
     }
 
     private IEnumerator HitPlayerAnimation()
@@ -89,46 +145,19 @@ public class BossMovement : MonoBehaviour
         hitNearCoolDown = true;
     }
 
-    private IEnumerator LaunchLasers()
-    {
-        launchingLasers = true;
-        
-
-        if (transform.position.x < launchingLasersPlaceX)
-        {
-            transform.Translate((walkingSpeed * 4) * Time.deltaTime, 0, 0);
-        }
-        else
-        {
-            transform.Translate(0, (walkingSpeed * 20) * launchingLasersYDirection * Time.deltaTime, 0);
-        }
-
-        if (launchingALaser)
-        {
-            StartCoroutine(LaunchALaser());
-        }
-
-        yield return new WaitForSeconds(3);
-        launchingALaser = true;
-        yield return new WaitForSeconds(15);
-        launchingLasers = false;
-    }
-
-    private IEnumerator LaunchALaser()
-    {
-        animator.SetBool("launchlaser", true);
-        yield return new WaitForSeconds(3);
-        launchingALaser = false;
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Player"))
+        if(collision.CompareTag("Player") && (hiting || launchingLasers))
         {
             HitPlayer(hitNearDamage);
         }
 
-        if(collision.CompareTag("BossLimitLasers"))
+        if (collision.CompareTag("hitplayer"))
+        {
+            //takedamage;
+        }
+
+        if (collision.CompareTag("BossLimitLasers"))
         {
             launchingLasersYDirection *= -1;
         }
