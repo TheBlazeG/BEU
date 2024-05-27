@@ -1295,10 +1295,22 @@ PrefabInstance:
       propertyPath: barra
       value: 
       objectReference: {fileID: 134350615}
+    - target: {fileID: 1921195623694281790, guid: 2b8e9595b499350419c43e8c90b67341, type: 3}
+      propertyPath: inRage
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4996854175120363569, guid: 2b8e9595b499350419c43e8c90b67341, type: 3}
       propertyPath: barraCombo
       value: 
       objectReference: {fileID: 1315658210}
+    - target: {fileID: 7668037801516190979, guid: 2b8e9595b499350419c43e8c90b67341, type: 3}
+      propertyPath: m_Size.x
+      value: 4.571429
+      objectReference: {fileID: 0}
+    - target: {fileID: 7668037801516190979, guid: 2b8e9595b499350419c43e8c90b67341, type: 3}
+      propertyPath: m_Size.y
+      value: 4.571429
+      objectReference: {fileID: 0}
     - target: {fileID: 7668037801516190979, guid: 2b8e9595b499350419c43e8c90b67341, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -1521,6 +1533,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1364683002}
+    - target: {fileID: 8196128246353478738, guid: e89d48cd25f0ba341b67dd92572042e1, type: 3}
+      propertyPath: maxDistanceToPlayerX
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

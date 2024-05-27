@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     float maxComboDelay = .6f;
     private float nextFireTime = 0;
     bool canDash=true;
-    public bool inRage=true;
+    public bool inRage=false;
     bool isInChange=false;
     ComboCount comboCount;
     
@@ -66,6 +66,20 @@ public class PlayerMovement : MonoBehaviour
                 StartCoroutine(Colorchange(playerRenderer, isInChange));
             }
         }
+        else
+        {
+            playerRenderer.color = Color.white;
+        }
+
+        if (Mathf.Abs(myRigidbody.velocity.x) > 0 || Mathf.Abs(myRigidbody.velocity.y) > 0) 
+        {
+            animator.SetBool("moving", true);
+        }
+        else
+        {
+            animator.SetBool("moving", false);
+        }
+
         if (myRigidbody.velocity.x > 0 && currentState != PlayerState.attack)
         {
             transform.localScale = new Vector3(1, 1, 1);
@@ -137,9 +151,9 @@ public class PlayerMovement : MonoBehaviour
         change.y = Input.GetAxisRaw("Vertical") * Time.deltaTime ;
 
 
-        if (Input.GetButtonDown("attack") && currentState != PlayerState.attack)
+        if (Input.GetButtonDown("attack") && currentState != PlayerState.stagger)
         {
-           StartCoroutine(Colorchange(playerRenderer,isInChange));
+           Rage();
         
         }
 
@@ -165,9 +179,13 @@ public class PlayerMovement : MonoBehaviour
         direction.x = Input.GetAxisRaw("Horizontal");
         direction.y = Input.GetAxisRaw("Vertical");
         animator.SetFloat("LeftorRight",ardir.x);
-       
 
-       
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > .99 && animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerSuper1"))
+        {
+            animator.SetBool("Super", false);
+
+        }
+
     }
     private void FixedUpdate()
     {
@@ -189,80 +207,7 @@ public class PlayerMovement : MonoBehaviour
             this.gameObject.SetActive(false);
         }
     }
-    void UpdateAnimationAndMove()
-    {
-        if (change != Vector3.zero)
-        {
 
-            transform.Translate(new Vector3(change.x, change.y));
-            animator.SetFloat("moveX", change.x);
-            animator.SetFloat("moveY", change.y);
-            animator.SetBool("moving", true);
-
-        }
-        else
-        {
-            animator.SetBool("moving", false);
-        }
-        MoveCharacter();
-
-    }
-    private IEnumerator AttackCo()
-    {
-        currentState = PlayerState.attack;
-        MakeArrow();
-        yield return new WaitForSeconds(.3f);
-        currentState = PlayerState.walk;
-        //if (currentState != PlayerState.interact)
-        //{
-
-        // }
-    }
-
-    private IEnumerator AttackSword()
-    {
-        if (numberOfAttacks == 1)
-        { animator.Play("Punch");
-            animator.SetBool("attack1", true);
-        }
-        else if (numberOfAttacks == 2) 
-        {
-            animator.SetBool("Attack2", true);
-        }
-        else if (numberOfAttacks == 3) 
-        {
-            animator.SetBool("attack3", true);
-        
-        }
-
-        currentState = PlayerState.attack;
-        yield return new WaitForSeconds(.015f);
-     
-        currentState = PlayerState.walk;
-    }
-
-
- 
-    void MoveCharacter()
-    {
-
-        myRigidbody.MovePosition(transform.position + change.normalized * speed * Time.deltaTime
-        );
-        Physics.SyncTransforms();
-
-    }
-    private void MakeArrow()
-    {
-        Vector2 temp = new Vector2(ardir.x, ardir.y);
-        Arrow arrow = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Arrow>();
-        //arrow.Setup(temp, ChooseArrowDirection());
-    }
-
-    Vector3 ChooseArrowDirection()
-    {
-        float temp = Mathf.Atan2(ardir.x, ardir.y) * Mathf.Rad2Deg;
-        return new Vector3(0, 0, temp);
-    }
     private IEnumerator KnockCo(float knockTime)
     {
         if (currentState != PlayerState.stagger)
@@ -338,6 +283,11 @@ public class PlayerMovement : MonoBehaviour
             barraCombo.value -= 10;
             animator.SetBool("Super", true);
         }
+        else if(inRage)
+        {
+            animator.SetBool("Super", true);
+        }
+
     }
     public void Rage()
     {
@@ -347,6 +297,10 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("Super", true);
             StartCoroutine(Ragetime());
             
+        }
+        else
+        {
+            Super();
         }
     }
     IEnumerator Ragetime()
@@ -375,7 +329,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         
-        playerRenderer.color = Color.white;
+        
         changing = false;
         yield return null;
 
