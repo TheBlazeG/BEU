@@ -16,7 +16,7 @@ public class BossMovement : MonoBehaviour
 
     private int launchingLasersYDirection = 1, launchedLasers = 0;
     private float timerLaunchALaser = 0, timerLaunchingLasers = 0, timerMovingBossLasers = 0;
-    private bool hiting = false, hitNearCoolDown = true, launchingLasers = false, launchingALaser = false, takeTimeTimerMovingBossLasers = true, takeTimeTimerLaunchingLasers = true, bossInXPlace = false;
+    private bool hiting = false, hitNearCoolDown = true, launchingLasers = false, launchingALaser = false, takeTimeTimerLaunchingLasers = true, bossInXPlace = false, isDead = false;
 
     Vector2 playerPositionReference;
 
@@ -62,13 +62,18 @@ public class BossMovement : MonoBehaviour
         {
             animator.SetBool("launchlaser", false);
         }
+
+        if (isDead) 
+        {
+            
+        }
     }
 
     private void MoveBoss()
     {
         playerPositionReference = (player.transform.position - transform.position);
 
-        if (Mathf.Abs(playerPositionReference.x) > maxDistanceToPlayerX && !hiting && !launchingLasers)
+        if (Mathf.Abs(playerPositionReference.x) > maxDistanceToPlayerX && !hiting && !launchingLasers && !isDead)
         {
             transform.Translate(playerPositionReference.normalized.x * walkingSpeed * Time.deltaTime, 0, 0);
         }
@@ -108,14 +113,14 @@ public class BossMovement : MonoBehaviour
             launchingLasers = false;
         }
 
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.2f && animator.GetCurrentAnimatorStateInfo(0).IsName("BossLaunchLaser") && bossInXPlace)
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= .99 && animator.GetCurrentAnimatorStateInfo(0).IsName("BossLaunchLaser") && bossInXPlace)
         {
             Debug.Log("move");
             animator.SetBool("movinglaser", false);
             launchingALaser = true;
         }
 
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f && animator.GetCurrentAnimatorStateInfo(0).IsName("LaunchLaser"))
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= .99 && animator.GetCurrentAnimatorStateInfo(0).IsName("LaunchLaser"))
         {
             animator.SetBool("movinglaser", true);
             launchingALaser = false;
@@ -146,6 +151,13 @@ public class BossMovement : MonoBehaviour
         hiting = false;
         yield return new WaitForSeconds(6);
         hitNearCoolDown = true;
+    }
+
+    private IEnumerator Die()
+    {
+        animator.SetBool("die", true);
+        yield return new WaitForSeconds(1.04f);
+        Destroy(gameObject);
     }
 
     private void TakeDamaga()
