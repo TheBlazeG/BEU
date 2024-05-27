@@ -207,6 +207,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barraCombo: {fileID: 1205769492}
+--- !u!114 &643697957 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4996854175120363569, guid: 2b8e9595b499350419c43e8c90b67341, type: 3}
+  m_PrefabInstance: {fileID: 1996493614}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643697950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ddb9ef7f5d226b48830f1d0b78c416c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &678907681
 GameObject:
   m_ObjectHideFlags: 0
@@ -1442,6 +1453,18 @@ PrefabInstance:
       propertyPath: health
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 1921195623694281790, guid: 2b8e9595b499350419c43e8c90b67341, type: 3}
+      propertyPath: inRage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1921195623694281790, guid: 2b8e9595b499350419c43e8c90b67341, type: 3}
+      propertyPath: comboCount
+      value: 
+      objectReference: {fileID: 643697957}
+    - target: {fileID: 1921195623694281790, guid: 2b8e9595b499350419c43e8c90b67341, type: 3}
+      propertyPath: barraObjeto
+      value: 
+      objectReference: {fileID: 1205769490}
     - target: {fileID: 1921195623694281790, guid: 2b8e9595b499350419c43e8c90b67341, type: 3}
       propertyPath: playerHealth
       value: 30

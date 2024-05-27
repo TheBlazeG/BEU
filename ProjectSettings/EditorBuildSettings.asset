@@ -6,7 +6,19 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/prefabs/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/MainMenu.unity
+    guid: 79a1e01781abc4945b7d5990b3d4fc32
+  - enabled: 1
+    path: Assets/Scenes/Level1.unity
+    guid: 4968b89c6eabd3c469cb4786403e7429
+  - enabled: 1
+    path: Assets/Scenes/Boss.unity
+    guid: 6a82580262a00764facb755f07fd356d
+  - enabled: 1
+    path: Assets/Scenes/WinScene.unity
+    guid: db47ddf474c31c247a56edb622451be6
+  - enabled: 1
+    path: Assets/Scenes/Death.unity
+    guid: ae3fd428f4ddedb4bbe5803a1b2c63f9
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

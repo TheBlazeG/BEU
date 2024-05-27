@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -25,21 +26,19 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D myRigidbody;
     private Vector3 change;
     private Vector3 ardir;
-    public GameObject projectile;
     private Animator animator;
     public PlayerState currentState;
     [SerializeField] public Vector2 direction;
     [SerializeField] BarraDeVida barra;
-    [SerializeField] Slider barraCombo;
-    public int numberOfAttacks;
+     int numberOfAttacks;
     float lastAttackedTime=0;
     float lastDodgeTime=0;
     float maxComboDelay = .6f;
     private float nextFireTime = 0;
     bool canDash=true;
-    public bool inRage=false;
+    [SerializeField]bool inRage=false;
     bool isInChange=false;
-    ComboCount comboCount;
+    [SerializeField]ComboCount comboCount;
     
     PlayerMovement player;
     SpriteRenderer playerRenderer;
@@ -51,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
         myRigidbody = GetComponent<Rigidbody2D>();
         ardir.y = -1;
         playerRenderer = GetComponent<SpriteRenderer>();
-        
+      
         //pd = GetComponent<PlayerDash>();
 
     }
@@ -59,17 +58,8 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.Log(currentState);
 
-        if (inRage)
-        {
-            if (!isInChange)
-            {
-                StartCoroutine(Colorchange(playerRenderer, isInChange));
-            }
-        }
-        else
-        {
-            playerRenderer.color = Color.white;
-        }
+       
+        
 
         if (Mathf.Abs(myRigidbody.velocity.x) > 0 || Mathf.Abs(myRigidbody.velocity.y) > 0) 
         {
@@ -93,11 +83,16 @@ public class PlayerMovement : MonoBehaviour
         {
             currentState = PlayerState.attack;
         }
-        else if(currentState != PlayerState.stagger)
+        else if(currentState != PlayerState.stagger && !inRage)
         {
             currentState = PlayerState.walk;
         }
 
+        if (numberOfAttacks == 0)
+        { animator.SetBool("attack1", false);
+        animator.SetBool("Attack2",false);
+        animator.SetBool("attack3",false);}
+            
 
         if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime>.7 && animator.GetCurrentAnimatorStateInfo(0).IsName("Punch"))
         {
@@ -119,6 +114,11 @@ public class PlayerMovement : MonoBehaviour
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") && numberOfAttacks==3 )
         {
             
+            numberOfAttacks = 0;
+        }
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") && numberOfAttacks == 3)
+        {
+
             numberOfAttacks = 0;
         }
 
@@ -161,11 +161,7 @@ public class PlayerMovement : MonoBehaviour
         {
             attack();
         }
-        else if (currentState == PlayerState.walk || currentState == PlayerState.idle)
-        {
-            //UpdateAnimationAndMove();
-            currentState = PlayerState.walk;
-        }
+        
         if (Input.GetButtonDown("Dash"))
         {
 
@@ -183,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
         if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > .99 && animator.GetCurrentAnimatorStateInfo(0).IsName("PlayerSuper1"))
         {
             animator.SetBool("Super", false);
-
+            currentState=PlayerState.walk;
         }
 
     }
@@ -278,25 +274,30 @@ public class PlayerMovement : MonoBehaviour
 
     void Super()
     {
-        if (barraCombo.value >= 10)
+        if (inRage)
         {
-            barraCombo.value -= 10;
             animator.SetBool("Super", true);
+            currentState = PlayerState.attack;
         }
-        else if(inRage)
+        
+        else if (comboCount.barraCombo.value >= 10)
         {
+            comboCount.barraCombo.value -= 10;
             animator.SetBool("Super", true);
+            currentState = PlayerState.attack;
         }
 
     }
     public void Rage()
     {
-        if (barraCombo.value == 20)
+        if (comboCount.barraCombo.value >= 20 && !inRage)
         {
-            barraCombo.value = 0;
-            animator.SetBool("Super", true);
             StartCoroutine(Ragetime());
-            
+            comboCount.barraCombo.value -= 20;
+            Super();
+            StartCoroutine(Colorchange(playerRenderer));
+
+
         }
         else
         {
@@ -305,32 +306,36 @@ public class PlayerMovement : MonoBehaviour
     }
     IEnumerator Ragetime()
     {
-        player.inRage = true;
-        new WaitForSeconds(20);
-        player.inRage = false;
-        yield return null;
+        Debug.Log("monke");
+        inRage = true;
+        yield return new WaitForSeconds(20);
+        inRage = false;
+        
 
     }
-    IEnumerator Colorchange(SpriteRenderer playerRenderer, bool changing)
+    IEnumerator Colorchange(SpriteRenderer playerRenderer )
     {
-        changing = true;
+        while (inRage)
+        {
             playerRenderer.color = Color.blue;
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(.3f);
             playerRenderer.color = Color.red;
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(.3f);
             playerRenderer.color = Color.green;
-        yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(.3f);
             playerRenderer.color = Color.yellow;
-        yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(.3f);
             playerRenderer.color = Color.magenta;
-        yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(.3f);
+        }
+           
 
 
 
 
         
         
-        changing = false;
+        playerRenderer.color = Color.white;
         yield return null;
 
     }

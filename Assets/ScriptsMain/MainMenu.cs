@@ -7,14 +7,13 @@ public class MainMenu : MonoBehaviour
     public void PlayGame()
     {
         // Asegúrate de que la escena del juego esté agregada en la lista de escenas en la configuración de Build
-        SceneManager.LoadScene("NombreDeTuEscenaDelJuego");
+        SceneManager.LoadScene("Level1");
     }
 
-    // Este método se llama cuando se presiona el botón Opciones
-    public void Options()
+    public void LoadMainMenu()
     {
-        // Aquí puedes agregar la lógica para abrir un menú de opciones
-        Debug.Log("Opciones presionado");
+        // Asegúrate de que la escena del juego esté agregada en la lista de escenas en la configuración de Build
+        SceneManager.LoadScene("MainMenu");
     }
 
     // Este método se llama cuando se presiona el botón Salir
