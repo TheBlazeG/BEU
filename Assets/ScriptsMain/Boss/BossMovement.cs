@@ -147,12 +147,17 @@ public class BossMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Player"))
+        if(collision.CompareTag("Player") && (hiting || launchingLasers))
         {
             HitPlayer(hitNearDamage);
         }
 
-        if(collision.CompareTag("BossLimitLasers"))
+        if (collision.CompareTag("hitplayer"))
+        {
+            //takedamage;
+        }
+
+        if (collision.CompareTag("BossLimitLasers"))
         {
             launchingLasersYDirection *= -1;
         }
