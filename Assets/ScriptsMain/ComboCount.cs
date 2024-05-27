@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class ComboCount : MonoBehaviour
 {
-    [SerializeField] Slider barraCombo;
+    [SerializeField] public Slider barraCombo;
     
     int combo;
     float comboTimer;

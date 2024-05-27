@@ -250,7 +250,13 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      skibidijcmovinglaser-Sheet_0: -8156537351340140922
+      skibidijcmovinglaser-Sheet_1: 2075419332177968764
+      skibidijcmovinglaser-Sheet_2: 2259030199312021293
+      skibidijcmovinglaser-Sheet_3: 6386346568427821523
+      skibidijcmovinglaser-Sheet_4: 6687508987334704218
+      skibidijcmovinglaser-Sheet_5: 1657608426653183521
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

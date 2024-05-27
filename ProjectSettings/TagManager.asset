@@ -9,6 +9,7 @@ TagManager:
   - fin
   - Enemy
   - BossHitCollider
+  - BarraCombo
   layers:
   - Default
   - TransparentFX
