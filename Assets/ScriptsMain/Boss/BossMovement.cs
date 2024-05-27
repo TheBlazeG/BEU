@@ -11,11 +11,12 @@ public class BossMovement : MonoBehaviour
 
     [SerializeField] GameObject player;
     PlayerMovement playerMovementScript;
+    Rigidbody2D rbboss;
     [SerializeField] int hitNearDamage, maxHealth;
     [SerializeField] float walkingSpeed, maxDistanceToPlayerX, launchingLasersPlaceX, currentHealth, damage;
 
     private int launchingLasersYDirection = 1, launchedLasers = 0;
-    private float timerLaunchALaser = 0, timerLaunchingLasers = 0, timerMovingBossLasers = 0;
+    private float timerLaunchingLasers = 0, timerMovingBossLasers = 0;
     private bool hiting = false, hitNearCoolDown = true, launchingLasers = false, launchingALaser = false, takeTimeTimerLaunchingLasers = true, bossInXPlace = false, isDead = false;
 
     Vector2 playerPositionReference;
@@ -23,6 +24,7 @@ public class BossMovement : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("Player");
+        rbboss = gameObject.GetComponent<Rigidbody2D>();
         playerMovementScript = player.gameObject.GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
     }
@@ -63,9 +65,14 @@ public class BossMovement : MonoBehaviour
             animator.SetBool("launchlaser", false);
         }
 
+        if (currentHealth <= 0)
+        {
+            isDead = true;
+        }
+
         if (isDead) 
         {
-            
+            Die();
         }
     }
 
@@ -91,7 +98,7 @@ public class BossMovement : MonoBehaviour
 
     private void HitPlayerNear()
     {
-        if (Mathf.Abs(playerPositionReference.y) < 1 && Mathf.Abs(playerPositionReference.x) < 2 && !hiting && hitNearCoolDown && !launchingLasers)
+        if (Mathf.Abs(playerPositionReference.y) < 1 && Mathf.Abs(playerPositionReference.x) < 2 && !hiting && hitNearCoolDown && !launchingLasers && !isDead)
         {
             hitNearCoolDown = false;
             hiting = true;
@@ -153,10 +160,10 @@ public class BossMovement : MonoBehaviour
         hitNearCoolDown = true;
     }
 
-    private IEnumerator Die()
+    private void Die()
     {
         animator.SetBool("die", true);
-        yield return new WaitForSeconds(1.04f);
+        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= .99 && animator.GetCurrentAnimatorStateInfo(0).IsName("BossExplosion"))
         Destroy(gameObject);
     }
 

@@ -1534,6 +1534,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1364683002}
     - target: {fileID: 8196128246353478738, guid: e89d48cd25f0ba341b67dd92572042e1, type: 3}
+      propertyPath: currentHealth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8196128246353478738, guid: e89d48cd25f0ba341b67dd92572042e1, type: 3}
       propertyPath: maxDistanceToPlayerX
       value: 1.5
       objectReference: {fileID: 0}
